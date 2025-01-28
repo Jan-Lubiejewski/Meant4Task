@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
 class AuthenticationPage(BasePage):
-    #Locators
+    # Locators
     _create_account_button = (By.XPATH, "//button[@id='SubmitCreate']")
     _email_field = (By.ID, "email_create")
     _email_error_alert = (By.XPATH, "//div[@id='create_account_error']//li")
