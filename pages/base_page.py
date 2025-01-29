@@ -34,7 +34,15 @@ class BasePage:
         element = self.wait_for_element(*locator)
         element.click()
 
-    
+    def check(self, locator):
+        """
+        Ensures the checkbox is checked.
+        If it is already checked, it does nothing.
+        """
+        element = self.driver.find_element(*locator)
+        if not element.is_selected():
+            element.click() 
+
     def wait_for_element(self, by, value, timeout=10):
         """
         Wait for an element to become visible
@@ -43,20 +51,20 @@ class BasePage:
             EC.visibility_of_element_located((by, value))
         )
     
-    def wait_for_element_to_be_clickable(self, by, value, timeout=10):
-        """
-        Wait for an element to become visible and clickable.
-        """
-        return WebDriverWait(self.driver, timeout).until(
-            EC.element_to_be_clickable((by, value))
-        )
-    
     def wait_for_elements(self, by, value, timeout=10):
         """
         Wait for multiple elements to become visible
         """
         return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_all_elements_located((by, value))
+        )
+    
+    def wait_for_element_displayed_none(self, by, value, timeout=10):
+        """
+        Wait for an element to have the style 'display: none'
+        """
+        WebDriverWait(self.driver, timeout).until(
+            lambda driver: driver.find_element(by, value).value_of_css_property("display") == "none"
         )
     
     def get_page_title(self):
