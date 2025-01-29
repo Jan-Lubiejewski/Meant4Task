@@ -6,7 +6,7 @@ from pages.create_account_page import CreateAccountPage
 from pages.my_account_page import MyAccountPage
 
 # Path to the feature files
-scenarios('example.feature')
+scenarios('registration.feature')
 
 @given('I am on "http://www.automationpractice.pl" Home Page')
 def navigate_to_home_page(driver):
@@ -33,10 +33,10 @@ def create_account_with_empty_email(driver):
     authentication_page.click_create_account_button()
 
 @then('The red alert "Invalid email address" should appear')
-def check_email_error_message(driver):
+def check_email_create_account_error_message(driver):
     authentication_page = AuthenticationPage(driver)
     expected_error_message = "Invalid email address."
-    actual_error_message = authentication_page.get_email_error_alert_text()
+    actual_error_message = authentication_page.get_email_create_account_error_alert_text()
 
     assert actual_error_message == expected_error_message, \
     f"Expected error message to be '{expected_error_message}' " \
@@ -45,7 +45,7 @@ def check_email_error_message(driver):
 @given('I fill Email address with "qamyk1258@gmail.com" and click on Create an account button')
 def fill_email(driver):
     authentication_page = AuthenticationPage(driver)
-    authentication_page.fill_email("qamyk1258@gmail.com")
+    authentication_page.fill_create_account_email("qamyk1258@gmail.com")
     authentication_page.click_create_account_button()
 
 @then("I clear all fields and click on Register button")
