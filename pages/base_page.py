@@ -43,6 +43,14 @@ class BasePage:
             EC.visibility_of_element_located((by, value))
         )
     
+    def wait_for_element_to_be_clickable(self, by, value, timeout=10):
+        """
+        Wait for an element to become visible and clickable.
+        """
+        return WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable((by, value))
+        )
+    
     def wait_for_elements(self, by, value, timeout=10):
         """
         Wait for multiple elements to become visible
