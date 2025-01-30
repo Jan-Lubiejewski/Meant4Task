@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.action_chains import ActionChains
 
 class BasePage:
     def __init__(self, driver):
@@ -21,6 +22,14 @@ class BasePage:
     
     def find_elements_without_wait(self, locator):
         return self.driver.find_elements(*locator)
+    
+    def slide_slider(self, left_handle_loc, right_handle_loc, left_offset, right_offset):
+        left_handle = self.driver.find_element(*left_handle_loc)
+        right_handle = self.driver.find_element(*right_handle_loc)
+        actions = ActionChains(self.driver)
+        actions.click_and_hold(left_handle).move_by_offset(left_offset, 0).release().perform()
+        actions.click_and_hold(right_handle).move_by_offset(right_offset, 0).release().perform()
+
     
     def send_keys(self, locator, value):
         element = self.wait_for_element(*locator)

@@ -1,7 +1,7 @@
 from pytest_bdd import scenarios, given, when, then
 from pages.home_page import HomePage
 from pages.women_page import WomenPage
-
+import time
 # Path to the feature files
 scenarios('sorting_and_filtering.feature')
 
@@ -61,3 +61,15 @@ def is_names_sorted_desc(driver):
     names = women_page.get_product_names()
     is_sorted_desc = women_page.is_names_sorted_descending(names)
     assert is_sorted_desc == True
+
+@when('I choose price range to be "between 16$ and 28$"')
+def filter_by_price_between_16_and_28(driver):
+    women_page = WomenPage(driver)
+    women_page.move_price_slider_by_r_and_l_offset(0, -165)
+
+@then('The prices should be higher than 16$ and lower than 28$')
+def is_prices_between_16_and_28(driver):
+    women_page = WomenPage(driver)
+    prices = women_page.get_product_prices()
+    is_between_16_and_18 = women_page.is_prices_between(prices, 16, 28)
+    assert is_between_16_and_18 == True

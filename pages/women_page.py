@@ -1,5 +1,6 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 class WomenPage(BasePage):
     # Locators
@@ -7,6 +8,9 @@ class WomenPage(BasePage):
     _sort_by = (By.ID, "selectProductSort")
     _product_prices = (By.XPATH, "//div[@class='product-container']//span[@itemprop='price']")
     _product_names = (By.XPATH, "//div[@class='product-container']//a[@class='product-name']")
+    _left_price_handle = (By.XPATH, "//div[@id='layered_price_slider']//a[1]")
+    _right_price_handle = (By.XPATH, "//div[@id='layered_price_slider']//a[2]")
+
 
     def __init__(self, driver):
         # Initialize the base class with the driver
@@ -49,3 +53,26 @@ class WomenPage(BasePage):
     
     def is_names_sorted_descending(self, names):
         return names == sorted(names, reverse=True)
+    
+    def move_price_slider_by_r_and_l_offset(self, left_offset, right_offset):
+        # Get the old list of prices before moving the slider
+        old_prices = self.get_product_prices()
+
+        #Move the slider
+        self.slide_slider(self._left_price_handle, self._right_price_handle,
+                          left_offset, right_offset)
+        
+        # Wait until the prices update
+        WebDriverWait(self.driver, 10).until(
+            lambda d: self.get_product_prices() != old_prices
+        )
+    
+    def is_prices_between(self, prices, min_price, max_price):
+        # Convert price strings to integers (removing the '$' sign)
+        numeric_prices = [int(price.replace("$", "").strip()) for price in prices]
+
+        # Check if all prices are within range
+        for numeric_price in numeric_prices:
+            if numeric_price < min_price or numeric_price > max_price:
+                return False
+        return True
