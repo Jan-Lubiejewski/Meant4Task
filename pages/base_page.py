@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 
 class BasePage:
     def __init__(self, driver):
@@ -17,6 +18,9 @@ class BasePage:
         Returns a list of web elements found by locator
         """
         return self.wait_for_elements(*locator)
+    
+    def find_elements_without_wait(self, locator):
+        return self.driver.find_elements(*locator)
     
     def send_keys(self, locator, value):
         element = self.wait_for_element(*locator)
@@ -41,7 +45,12 @@ class BasePage:
         """
         element = self.driver.find_element(*locator)
         if not element.is_selected():
-            element.click() 
+            element.click()
+
+    def select_by_visible_text(self, locator, text):
+        select_element = self.driver.find_element(*locator)
+        select = Select(select_element)
+        select.select_by_visible_text(text)
 
     def wait_for_element(self, by, value, timeout=10):
         """
