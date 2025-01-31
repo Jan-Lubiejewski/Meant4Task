@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when, then
+from pytest_bdd import scenarios, given, when, then, parsers
 from faker import Faker
 from pages.home_page import HomePage
 from pages.authentication_page import AuthenticationPage
@@ -32,7 +32,7 @@ def create_account_with_empty_email(driver):
     authentication_page = AuthenticationPage(driver)
     authentication_page.click_create_account_button()
 
-@then('The red alert "Invalid email address" should appear')
+@then('The red alert "Invalid email address" should appear on Authentication Page')
 def check_email_create_account_error_message(driver):
     authentication_page = AuthenticationPage(driver)
     expected_error_message = "Invalid email address."
@@ -54,7 +54,7 @@ def clear_all_fields_and_click_register(driver):
     create_account_page.clear_all_fields()
     create_account_page.click_register_button()
 
-@then("The red alerts for all required fields should appear")
+@then("The red alerts for all required fields should appear on Create Account Page")
 def check_req_field_error_messages(driver):
     create_account_page = CreateAccountPage(driver)
     messages = create_account_page.get_all_error_messages()
@@ -84,13 +84,13 @@ def fill_invalid_first_name(driver):
     create_account_page.fill_password("12345")
     create_account_page.click_register_button()
 
-@then('The red alert "firstname is invalid" should appear')
-def check_invalid_first_name_error_message(driver):
+@then(parsers.parse('The red alert "{error_msg}" should appear on Create Account Page'))
+def check_alert_error_message(driver, error_msg):
     create_account_page = CreateAccountPage(driver)
     messages = create_account_page.get_all_error_messages()
 
-    assert "firstname is invalid" in messages[0].text, \
-        f"Expected error message to be 'firstname is invalid'" \
+    assert error_msg in messages[0].text, \
+        f"Expected error message to be '{error_msg}'" \
         f"but got '{messages[0].text}'"
     
 @then('I fill last name with "123" and rest of required fields with valid data and click on Register button')
@@ -101,15 +101,6 @@ def fill_invalid_first_name(driver):
     create_account_page.fill_email("qamyk1258@gmail.com")
     create_account_page.fill_password("12345")
     create_account_page.click_register_button()
-
-@then('The red alert "lastname is invalid" should appear')
-def check_invalid_first_name_error_message(driver):
-    create_account_page = CreateAccountPage(driver)
-    messages = create_account_page.get_all_error_messages()
-
-    assert "lastname is invalid" in messages[0].text, \
-        f"Expected error message to be 'lastname is invalid'" \
-        f"but got '{messages[0].text}'"
     
 @then('I fill email again with "123" and rest of required fields with valid data and click on Register button')
 def fill_invalid_first_name(driver):
@@ -119,15 +110,6 @@ def fill_invalid_first_name(driver):
     create_account_page.fill_email("123")
     create_account_page.fill_password("12345")
     create_account_page.click_register_button()
-
-@then('The red alert "email is invalid" should appear')
-def check_invalid_first_name_error_message(driver):
-    create_account_page = CreateAccountPage(driver)
-    messages = create_account_page.get_all_error_messages()
-
-    assert "email is invalid" in messages[0].text, \
-        f"Expected error message to be 'email is invalid'" \
-        f"but got '{messages[0].text}'"
     
 @then('I fill password with "123" and rest of required fields with valid data and click on Register button')
 def fill_invalid_first_name(driver):
@@ -137,20 +119,11 @@ def fill_invalid_first_name(driver):
     create_account_page.fill_email("qamyk1258@gmail.com")
     create_account_page.fill_password("123")
     create_account_page.click_register_button()
-
-@then('The red alert "passwd is invalid" should appear')
-def check_invalid_first_name_error_message(driver):
-    create_account_page = CreateAccountPage(driver)
-    messages = create_account_page.get_all_error_messages()
-
-    assert "passwd is invalid" in messages[0].text, \
-        f"Expected error message to be 'passwd is invalid'" \
-        f"but got '{messages[0].text}'"
     
 @then('I fill all the required fields with valid data and click on Register button')
 def fill_invalid_first_name(driver):
-    fake = Faker()
-    random_mail = fake.email()
+    fake = Faker() 
+    random_mail = fake.email() # Generate random email
     create_account_page = CreateAccountPage(driver)
     create_account_page.fill_first_name("Jan")
     create_account_page.fill_last_name("Kowalski")

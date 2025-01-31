@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when, then
+from pytest_bdd import scenarios, given, when, then, parsers
 from pages.home_page import HomePage
 from pages.authentication_page import AuthenticationPage
 from pages.my_account_page import MyAccountPage
@@ -30,10 +30,10 @@ def sign_in_with_empty_email_and_password(driver):
     authentication_page = AuthenticationPage(driver)
     authentication_page.click_sign_in_button()
 
-@then('The red alert "An email address required." should appear')
-def check_email_sign_in_error_message(driver):
+@then(parsers.parse('The red alert "{error_msg}" should appear'))
+def check_sign_in_error_message(driver, error_msg):
     authentication_page = AuthenticationPage(driver)
-    expected_error_message = "An email address required."
+    expected_error_message = error_msg
     actual_error_message = authentication_page.get_sign_in_alert_text()
 
     assert actual_error_message == expected_error_message, \
@@ -45,17 +45,6 @@ def fill_valid_email_and_empty_password(driver):
     authentication_page = AuthenticationPage(driver)
     authentication_page.fill_sign_in_email("jkli2@gmail.com")
     authentication_page.click_sign_in_button()
-
-@then('The red alert "Password is required." should appear')
-def check_email_sign_in_error_message(driver):
-    authentication_page = AuthenticationPage(driver)
-    expected_error_message = "Password is required."
-    actual_error_message = authentication_page.get_sign_in_alert_text()
-
-    assert actual_error_message == expected_error_message, \
-    f"Expected error message to be '{expected_error_message}' " \
-    f"but got '{actual_error_message}'"
-
 
 @given('I do not fill email and fill password with "123456" and click on "Sign in" button')
 def fill_valid_email_and_empty_password(driver):
@@ -69,16 +58,6 @@ def fill_valid_email_and_empty_password(driver):
     authentication_page.fill_sign_in_email("jkli2@gmail.com")
     authentication_page.fill_password("12345")
     authentication_page.click_sign_in_button()
-
-@then('The red alert "Authentication failed." should appear')
-def check_email_sign_in_error_message(driver):
-    authentication_page = AuthenticationPage(driver)
-    expected_error_message = "Authentication failed."
-    actual_error_message = authentication_page.get_sign_in_alert_text()
-
-    assert actual_error_message == expected_error_message, \
-    f"Expected error message to be '{expected_error_message}' " \
-    f"but got '{actual_error_message}'"
 
 @given('I fill email with "jkli2@gmail.com" and fill password with "123456" and click on "Sign in" button')
 def fill_valid_email_and_empty_password(driver):

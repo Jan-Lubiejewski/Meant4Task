@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when, then
+from pytest_bdd import scenarios, given, then
 from pages.home_page import HomePage
 from pages.women_page import WomenPage
 from pages.product_page import ProductPage
