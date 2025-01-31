@@ -26,9 +26,15 @@ class BasePage:
     def slide_slider(self, left_handle_loc, right_handle_loc, left_offset, right_offset):
         left_handle = self.driver.find_element(*left_handle_loc)
         right_handle = self.driver.find_element(*right_handle_loc)
+
+        # Scroll both handles into view
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", left_handle)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", right_handle)
+
+        # Move slider horizontally by given offset
         actions = ActionChains(self.driver)
-        actions.click_and_hold(left_handle).move_by_offset(left_offset, 0).release().perform()
         actions.click_and_hold(right_handle).move_by_offset(right_offset, 0).release().perform()
+        actions.click_and_hold(left_handle).move_by_offset(left_offset, 0).release().perform()
 
     
     def send_keys(self, locator, value):
