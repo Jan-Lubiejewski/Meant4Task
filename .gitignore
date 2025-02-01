@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+feautures/__pycache__/
+feautures/steps/__pycache__/
+pages/__pycache__/
+venv/
