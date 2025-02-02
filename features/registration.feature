@@ -7,7 +7,7 @@ Feature: Registration
 
  Scenario: Empty email address
     Given I do not fill Email address and click on "Create an account" button
-   Then The red alert "Invalid email address" should appear on Authentication Page
+    Then The red alert "Invalid email address" should appear on Authentication Page
 
   Scenario: Input valid email address then clear all fields and attemp to register an account
     Given I fill Email address with "qamyk1258@gmail.com" and click on Create an account button
@@ -38,7 +38,14 @@ Feature: Registration
     Given I fill Email address with "qamyk1258@gmail.com" and click on Create an account button
     Then I fill all the required fields with valid data and click on Register button
     Then I get redirected to My Account Page and green alert "Your account has been created" appears
-    
+
+# There's no validation for the date of birth, if there were it could end in
+# "Then The red alert "date of birth is invalid" should appear on Create Account Page"
+  Scenario: Successful registration with invalid birth date and optional fields
+    Given I fill Email address with "qamyk1258@gmail.com" and click on Create an account button
+    Then I fill invalid date of birth, click on "Mr" title and check "Sign up for our newsletter"
+    Then I fill all the required fields with valid data and click on Register button
+    Then I get redirected to My Account Page and green alert "Your account has been created" appears
     
 
   

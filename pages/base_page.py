@@ -82,6 +82,14 @@ class BasePage:
         select = Select(select_element)
         select.select_by_visible_text(text)
 
+    def select_by_value(self, locator, value):
+        """
+        Select option element by value.
+        """
+        select_element = self.driver.find_element(*locator)
+        select = Select(select_element)
+        select.select_by_value(value)
+
     def wait_for_element(self, by, value, timeout=10):
         """
         Wait for an element to become visible.

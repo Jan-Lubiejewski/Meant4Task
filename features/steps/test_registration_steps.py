@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, given, when, then, parsers
 from faker import Faker
+from datetime import datetime
 from pages.home_page import HomePage
 from pages.authentication_page import AuthenticationPage
 from pages.create_account_page import CreateAccountPage
@@ -147,4 +148,18 @@ def redirect_to_authentication_page(driver):
     assert actual_alert_message == expected_alert_message, \
     f"Expected error message to be '{expected_alert_message}' " \
     f"but got '{actual_alert_message}'"
+
+@then('I fill invalid date of birth, click on "Mr" title and check "Sign up for our newsletter"')
+def fill_future_birth_date(driver):
+    create_account_page = CreateAccountPage(driver)
+    today = datetime.today()
+    sys_day = str(today.day)
+    sys_month = str(today.month)
+    sys_year = str(today.year)
+    create_account_page.select_day(sys_day)
+    create_account_page.select_month(sys_month)
+    create_account_page.select_year(sys_year)
+    create_account_page.click_mr_radio()
+    create_account_page.check_newsletter()
+
     

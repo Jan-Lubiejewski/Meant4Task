@@ -21,6 +21,12 @@ class CreateAccountPage(BasePage):
         # Initialize the base class with the driver
         super().__init__(driver)
 
+    def click_mr_radio(self):
+        self.click(self._mr_radio)
+
+    def click_mrs_radio(self):
+        self.click(self._mrs_radio)
+
     def fill_first_name(self, first_name):
         self.send_keys(self._first_name, first_name)
 
@@ -32,6 +38,21 @@ class CreateAccountPage(BasePage):
     
     def fill_password(self, password):
         self.send_keys(self._password, password)
+
+    def select_day(self, day):
+        self.wait_for_element(*self._day)
+        self.select_by_value(self._day, day)
+
+    def select_month(self, month):
+        self.wait_for_element(*self._month)
+        self.select_by_value(self._month, month)
+
+    def select_year(self, year):
+        self.wait_for_element(*self._year)
+        self.select_by_value(self._year, year)
+
+    def check_newsletter(self):
+        self.check(self._newsletter_check)
 
     def click_register_button(self):
         self.click(self._register_button)
