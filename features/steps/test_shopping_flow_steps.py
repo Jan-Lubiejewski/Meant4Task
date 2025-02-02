@@ -26,7 +26,7 @@ def click_on_blouse(driver):
 def choose_m_size_and_white_color_then_order(driver):
     product_page = ProductPage(driver)
     product_page.select_color(0)  # White is first color in the list
-    # product_page.select_size("M")
+    product_page.select_size("M")
     product_page.click_add_to_cart()
 
 @then('I click "Proceed to checkout" and I get redirected to Shopping Cart Page')

@@ -16,10 +16,8 @@ class ProductPage(BasePage):
     def click_on_blouse(self):
         self.click(self._blouse)
     
-    def select_size(self, size):
-        size_picker_element = self.find_element(self._size_picker)
-        select = Select(size_picker_element)
-        select.select_by_visible_text(size)
+    def select_size(self, text):
+        self.select_by_visible_text(self._size_picker, text)
 
     def select_color(self, value):
         # Wait for "Add to cart" button to be in 'display: none'
