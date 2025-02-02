@@ -1,6 +1,5 @@
 import pytest
 from selenium import webdriver
-import time
 
 @pytest.fixture(scope='function')
 def driver():
@@ -12,9 +11,7 @@ def driver():
     driver = webdriver.Chrome()
     driver.maximize_window()
 
-    # This is the "Setup" part: Visit the given page before each scenario.
     yield driver
     
-    # This is the "Teardown" part: Quit the driver after each scenario.
-    time.sleep(4) # Wait for debug purposes
+    # Teardown
     driver.quit()
