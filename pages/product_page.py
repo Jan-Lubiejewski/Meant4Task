@@ -20,6 +20,10 @@ class ProductPage(BasePage):
         self.select_by_visible_text(self._size_picker, text)
 
     def select_color(self, value):
+        """
+        Wait for "Add to cart" button to vanish.
+        Select the product color.
+        """
         # Wait for "Add to cart" button to be in 'display: none'
         # Changing color without it result in Add to cart not being displayed
         self.wait_for_element_displayed_none(*self._add_to_cart)

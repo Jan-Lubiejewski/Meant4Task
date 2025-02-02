@@ -18,6 +18,7 @@ class CreateAccountPage(BasePage):
     _alert_messages = (By.XPATH, "//div[@class='alert alert-danger']//li")
 
     def __init__(self, driver):
+        # Initialize the base class with the driver
         super().__init__(driver)
 
     def fill_first_name(self, first_name):

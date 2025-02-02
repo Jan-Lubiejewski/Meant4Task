@@ -10,7 +10,7 @@ class MyAccountPage(BasePage):
 
     def get_green_alert_text(self):
         """
-        This method will return the text of the green success alert if it is visible.
+        Return the text of the green success alert if it is visible.
         """
         element = self.find_element(self._green_alert)
         return element.text

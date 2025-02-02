@@ -35,5 +35,8 @@ class ShoppingCarPage(BasePage):
         self.click(self._confirm_order_button)
 
     def get_purchase_success_alert_text(self):
+        """
+        Return the text of the green success alert if it is visible.
+        """
         element = self.find_element(self._alert_success)
         return element.text

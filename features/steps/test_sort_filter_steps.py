@@ -22,14 +22,14 @@ def sort_by(driver, sort_option):
 @then('The prices should be sorted in ascending order')
 def is_prices_sorted_asc(driver):
     women_page = WomenPage(driver)
-    prices = women_page.get_product_prices()
+    prices = women_page.get_products_prices()
     is_sorted_asc = women_page.is_prices_sorted_ascending(prices)
     assert is_sorted_asc == True
 
 @then('The prices should be sorted in descending order')
 def is_prices_sorted_desc(driver):
     women_page = WomenPage(driver)
-    prices = women_page.get_product_prices()
+    prices = women_page.get_products_prices()
     is_sorted_desc = women_page.is_prices_sorted_descending(prices)
     assert is_sorted_desc == True
 
@@ -55,6 +55,6 @@ def filter_by_price_between_16_and_28(driver):
 @then('The prices should be higher than 16$ and lower than 28$')
 def is_prices_between_16_and_28(driver):
     women_page = WomenPage(driver)
-    prices = women_page.get_product_prices()
+    prices = women_page.get_products_prices()
     is_between_16_and_18 = women_page.is_prices_between(prices, 16, 28)
     assert is_between_16_and_18 == True

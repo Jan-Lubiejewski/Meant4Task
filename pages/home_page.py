@@ -16,6 +16,9 @@ class HomePage(BasePage):
         self.click(self._sign_in_button)
 
     def click_women_tab(self):
+        '''
+        Hover over women tab and click it.
+        '''
         women_tab_element = self.find_element(self._women_tab)
         actions = ActionChains(self.driver)
         actions.move_to_element(women_tab_element).click().perform()

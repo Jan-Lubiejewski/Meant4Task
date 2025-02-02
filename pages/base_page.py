@@ -10,20 +10,26 @@ class BasePage:
     
     def find_element(self, locator):
         """
-        Returns the web element found by locator
+        Returns the web element found by locator if it's visible.
         """
         return self.wait_for_element(*locator)
     
     def find_elements(self, locator):
         """
-        Returns a list of web elements found by locator
+        Returns a list of web elements found by locator if they are visible.
         """
         return self.wait_for_elements(*locator)
     
     def find_elements_without_wait(self, locator):
+        """
+        Returns the web element found by locator.
+        """
         return self.driver.find_elements(*locator)
     
     def slide_slider(self, left_handle_loc, right_handle_loc, left_offset, right_offset):
+        """
+        Scroll to slider element and move the left and right handle by given offset.
+        """
         left_handle = self.driver.find_element(*left_handle_loc)
         right_handle = self.driver.find_element(*right_handle_loc)
 
@@ -38,17 +44,23 @@ class BasePage:
 
     
     def send_keys(self, locator, value):
+        """
+        Clear field and fill it with new value if the field is visible.
+        """
         element = self.wait_for_element(*locator)
         element.clear()
         element.send_keys(value)
 
     def clear(self, locator):
+        """
+        Clear field if it's visible.
+        """
         element = self.wait_for_element(*locator)
         element.clear()
     
     def click(self, locator):
         """
-        Clicks on an element using the locator passed from the page class
+        Clicks on an element if it's visible.
         """
         element = self.wait_for_element(*locator)
         element.click()
@@ -63,13 +75,16 @@ class BasePage:
             element.click()
 
     def select_by_visible_text(self, locator, text):
+        """
+        Select option element by visible text.
+        """
         select_element = self.driver.find_element(*locator)
         select = Select(select_element)
         select.select_by_visible_text(text)
 
     def wait_for_element(self, by, value, timeout=10):
         """
-        Wait for an element to become visible
+        Wait for an element to become visible.
         """
         return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((by, value))
@@ -77,7 +92,7 @@ class BasePage:
     
     def wait_for_elements(self, by, value, timeout=10):
         """
-        Wait for multiple elements to become visible
+        Wait for multiple elements to become visible.
         """
         return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_all_elements_located((by, value))
@@ -85,7 +100,7 @@ class BasePage:
     
     def wait_for_element_displayed_none(self, by, value, timeout=10):
         """
-        Wait for an element to have the style 'display: none'
+        Wait for an element to have the style 'display: none'.
         """
         WebDriverWait(self.driver, timeout).until(
             lambda driver: driver.find_element(by, value).value_of_css_property("display") == "none"
