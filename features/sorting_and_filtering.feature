@@ -20,6 +20,10 @@ Feature: Item sorting and filtering
     Given I choose Sort by "Product Name: Z to A"
     Then The names should be sorted in descending order
 
+  Scenario: Filter by White color
+    Given I choose Filter by "White" color
+    Then Products only with given "White" color option should appear
+
   Scenario: Set price range to be between 16$ and 28$
     Given I choose price range to be "between 16$ and 28$"
     Then The prices should be higher than 16$ and lower than 28$

@@ -8,6 +8,7 @@ class WomenPage(BasePage):
     _sort_by = (By.ID, "selectProductSort")
     _product_prices = (By.XPATH, "//div[@class='product-container']//span[@itemprop='price']")
     _product_names = (By.XPATH, "//div[@class='product-container']//a[@class='product-name']")
+    _white_product_option = (By.XPATH, "//div[@class='product-container']//a[@style='background:#ffffff;']")
     _left_price_handle = (By.XPATH, "//div[@id='layered_price_slider']//a[1]")
     _right_price_handle = (By.XPATH, "//div[@id='layered_price_slider']//a[2]")
 
@@ -21,13 +22,39 @@ class WomenPage(BasePage):
 
     def select_sort_by_option_by_text(self, text):
         """
-        Select sort by option
+        Select sort by option.
         """
         self.select_by_visible_text(self._sort_by, text)
 
+    def filter_by_color_link_text(self, text):
+        """
+        Filter by given color.
+        Wait for the names to update.
+        """
+        # Get the old list of prices before moving the slider
+        old_names = self.get_product_names()
+
+        # Click the color
+        color_locator = (By.PARTIAL_LINK_TEXT, text)
+        self.click_without_wait(color_locator)
+
+        # Wait until the names update
+        WebDriverWait(self.driver, 10).until(
+            lambda d: self.get_product_names() != old_names
+        )
+    
+    def is_number_of_white_options_equal_number_of_products(self):
+        """
+        Return check if number of product with white color option is equal number of products.
+        """
+        white_options = self.find_elements_without_wait(self._white_product_option)
+        product_names = self.get_product_names()
+
+        return len(white_options) == len(product_names)
+
     def get_products_prices(self):
         """
-        Return products prices in format: '$amount' as list
+        Return products prices in format: '$amount' as list.
         """
         prices = []
         elements = self.find_elements_without_wait(self._product_prices)
@@ -37,8 +64,8 @@ class WomenPage(BasePage):
     
     def is_prices_sorted_ascending(self, prices):
         """
-        Convert prices to plain integers 
-        Return check if the list is sorted asc
+        Convert prices to plain integers.
+        Return check if the list is sorted asc.
         """
         # Convert price strings to integers (removing the '$' sign)
         numeric_prices = [int(price.replace("$", "")) for price in prices]
@@ -47,8 +74,8 @@ class WomenPage(BasePage):
     
     def is_prices_sorted_descending(self, prices):
         """
-        Convert prices to plain integers
-        Return check if the list is sorted desc
+        Convert prices to plain integers.
+        Return check if the list is sorted desc.
         """
         # Convert price strings to integers (removing the '$' sign)
         numeric_prices = [int(price.replace("$", "")) for price in prices]
@@ -57,7 +84,7 @@ class WomenPage(BasePage):
     
     def get_product_names(self):
         """
-        Return products names as list
+        Return products names as list.
         """
         names = []
         elements = self.find_elements_without_wait(self._product_names)
@@ -73,13 +100,13 @@ class WomenPage(BasePage):
     
     def move_price_slider_by_r_and_l_offset(self, left_offset, right_offset):
         """
-        Slide the price slider by given handles offset
-        Wait for the prices to update
+        Slide the price slider by given handles offset.
+        Wait for the prices to update.
         """
         # Get the old list of prices before moving the slider
         old_prices = self.get_products_prices()
 
-        #Move the slider
+        # Move the slider
         self.slide_slider(self._left_price_handle, self._right_price_handle,
                           left_offset, right_offset)
         
@@ -90,8 +117,8 @@ class WomenPage(BasePage):
     
     def is_prices_between(self, prices, min_price, max_price):
         """
-        Convert prices to plain integers
-        Return check if the pricess are within min and max range
+        Convert prices to plain integers.
+        Return check if the pricess are within min and max range.
         """
         # Convert price strings to integers (removing the '$' sign)
         numeric_prices = [int(price.replace("$", "").strip()) for price in prices]

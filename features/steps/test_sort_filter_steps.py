@@ -47,6 +47,16 @@ def is_names_sorted_desc(driver):
     is_sorted_desc = women_page.is_names_sorted_descending(names)
     assert is_sorted_desc == True
 
+@given(parsers.parse('I choose Filter by "{color}" color'))
+def filter_by_color(driver, color):
+    women_page = WomenPage(driver)
+    women_page.filter_by_color_link_text(color)
+
+@then('Products only with given "White" color option should appear')
+def is_products_with_color_appear(driver):
+    women_page = WomenPage(driver)
+    assert women_page.is_number_of_white_options_equal_number_of_products() == True
+
 @given('I choose price range to be "between 16$ and 28$"')
 def filter_by_price_between_16_and_28(driver):
     women_page = WomenPage(driver)

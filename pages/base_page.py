@@ -58,6 +58,13 @@ class BasePage:
         element = self.wait_for_element(*locator)
         element.clear()
     
+    def click_without_wait(self, locator):
+        """
+        Clicks on an element if it's visible.
+        """
+        element = self.driver.find_element(*locator)
+        element.click()
+    
     def click(self, locator):
         """
         Clicks on an element if it's visible.
